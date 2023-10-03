@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<head>
+    <link rel="stylesheet" href="static/stylesheet.css">
+    <title>Teleservice Cardgame</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/static/script.js"></script>
+    <div id="question-list" data-question-list="{{ question_list }}"></div>
+</head>
+
+<body>
+    <div class="outside-card-container">
+        <h1 class="card-title">Teleservice Skåne</h1>
+        <div class="inside-card-container">
+            <div class="start-card-container">
+                <h2>Fråga: <span id="question-text"></span></h2><br>
+                <p><span id="answer-text"></span></p><br>
+                <button class="result-button" id="result-button">Visa Resultat</button>
+                <a href="{{ url_for('get_start') }}"><button class="return-button">Gå tillbaka till startsidan</button></a>
+            </div>
+            <div class="back-card-container">
+                <h2>Rätt svar:</h2>
+                <p><span id="correct-answer-text"></span></p><br>
+                <button class="correct-button">Jag klarade det</button><br>
+                <button class="almost-correct-button">Jag klarade nästan det</button><br>
+                <button class="incorrect-button">Jag klarade inte det</button><br>
+            </div>
+        </div>
+        <div class="result-card-container">
+            <h2>Korrekt:</h2>
+            <div class="outside-card-container">
+                <div class="inside-card-container">
+                    <p>Resultat</p>
+                </div>
+            </div>
+            <h2>Nästan Korrekt:</h2>
+            <div class="outside-card-container">
+                <div class="inside-card-container">
+                    <p>Resultat</p>
+                </div>
+            </div>
+            <h2>Inkorrekt:</h2>
+            <div class="outside-card-container">
+                <div class="inside-card-container">
+                    <p>Resultat</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
