@@ -4,20 +4,22 @@ import json
 
 app = Flask(__name__)
 
+##Gets the Database
 def get_database():
     try:
         return db.Database()
     except Exception as e:
         return e
 
+##Gets the list of questions from the Database
 def get_data():
     try:
         db = get_database()
-        test_data = db.get_questions()
-        return test_data
+        return db.get_questions()
     except Exception as e:
         return e
 
+##Routes the start page to the Localhost
 @app.route('/')
 def get_start():
     try:
@@ -25,6 +27,7 @@ def get_start():
     except Exception as e:
         return e
 
+##Routes the session page to HTTP and sends the list of questions as JSON to the page
 @app.route('/session')
 def get_session():
     try:

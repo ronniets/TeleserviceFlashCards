@@ -60,6 +60,18 @@ button:hover {
     border-radius: 8px;
     padding: 20px;
     text-align: center;
+    flex: 1;
+}
+
+.result-card-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.outside-card-result-container {
+    background-color: grey;
+    padding: 20px;
+    text-align: center;
 }
 
 h1 {
@@ -73,7 +85,12 @@ h2 {
 }
 
 .start-card-container {
+    display: none;
     margin-top: 20px;
+}
+
+.back-card-container {
+    display: none;
 }
 
 p {
