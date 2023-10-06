@@ -122,11 +122,11 @@ h2 {
 }
 
 .start-card-container {
-    display: none;
+    display: block;
 }
 
 .back-card-container {
-    display: none;
+    display: block;
 }
 
 p {

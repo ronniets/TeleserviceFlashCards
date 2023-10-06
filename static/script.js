@@ -24,15 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
             if (clickedButtonClass === 'correct-button') {
                 correct++;
                 correctList.push(questionList[index]);
-                console.log(index + " " + correctList + " ");
             } else if (clickedButtonClass === 'almost-correct-button') {
                 almost++;
                 almostList.push(questionList[index]);
-                console.log(index + " " + almostList + " ");
             } else if (clickedButtonClass === 'incorrect-button') {
                 incorrect++;
                 incorrectList.push(questionList[index]);
-                console.log(index + " " + incorrectList + " ");
             }
         });
     });
@@ -164,17 +161,51 @@ function almostCorrectContainer() {
 function incorrectContainer() {
     var incorrectContainer = $('<div class="incorrect-container">');
     incorrectContainer.append('<h2>Inkorrekt: <span id="incorrect-text"></span></h2>');
-    
+
     for (let i = 0; i < incorrectList.length; i++) {
-        var card = createCard(incorrectList[i]);
-        incorrectContainer.append(card);
+        var cardContainer = createCard(incorrectList[i]);
+        incorrectContainer.append(cardContainer);
+        console.log(cardContainer);
+        console.log(incorrectList);
     }
 
     return incorrectContainer;
 }
 
-//Creates the card with the correct question data
 function createCard(questionData) {
+    var cardContainer = $('<div class="outside-card-container">');
+    cardContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
+    var insideContainer = $('<div class="inside-card-container">');
+
+    var startCard = $('<div class="start-card-container">');
+    startCard.append('<h2>Fråga: <span id="question-text">' + questionData[0] + '</span></h2><br>');
+    startCard.append('<p><span id="answer-text">' + questionData[1] + '</span></p><br>');
+
+    var backCard = $('<div class="back-card-container">');
+    backCard.append('<h2>Rätt svar:</h2>');
+    backCard.append('<p><span id="correct-answer-text">' + questionData[2] + '</span></p><br>');
+
+    console.log(startCard);
+    console.log(backCard);
+
+    insideContainer.on('click', function () {
+        if (insideContainer.children().is(startCard)) {
+            insideContainer.empty().append(backCard);
+            console.log("click");
+        } else {
+            insideContainer.empty().append(startCard);
+            console.log("bad click");
+        }
+    });
+
+    insideContainer.append(startCard);
+    cardContainer.append(insideContainer);
+
+    return cardContainer;
+}
+
+//Creates the card with the correct question data
+function createCardTest(questionData) {
     var outsideContainer = $('<div class="outside-card-container">');
     outsideContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
     var insideContainer = $('<div class="inside-card-container">');
