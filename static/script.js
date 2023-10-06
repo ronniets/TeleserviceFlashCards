@@ -31,9 +31,18 @@ function getQuestionList() {
 
 //Sends a question with corresponding index
 function showQuestion(questionList) {
+    let firstRun = true;
+
     if (index < questionList.length - 1) {
         updateQuestion(questionList[index]);
-        $('.start-card-container').show();
+
+        if (firstRun) {
+            $('.start-card-container').show();
+            firstRun = false;
+        } else {
+            $('.start-card-container').show().addClass('flip-in');
+        }
+
         $('.back-card-container').hide();
     } else {
         updateQuestion(null);
@@ -44,8 +53,9 @@ function showQuestion(questionList) {
 function getResult(questionList) {
     if (index < questionList.length - 1) {
         updateQuestion(questionList[index]);
+
         $('.start-card-container').hide();
-        $('.back-card-container').show();
+        $('.back-card-container').show().addClass('flip-in');
     } else {
         updateQuestion(null);
     }
@@ -68,6 +78,10 @@ function getNextQuestion(questionList, button) {
         }
 
         index++;
+
+        $('.start-card-container').hide();
+        $('.back-card-container').show().addClass('flip-in');
+
         showQuestion(questionList);
     } else if (index == questionList.length - 1) {
         updateQuestion(null);
