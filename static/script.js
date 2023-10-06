@@ -18,19 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         $('.correct-button, .almost-correct-button, .incorrect-button').click(function () {
-            getNextQuestion(questionList);
-            var clickedButtonClass = $(this).attr('class')
-
-            if (clickedButtonClass === 'correct-button') {
-                correct++;
-                correctList.push(questionList[index]);
-            } else if (clickedButtonClass === 'almost-correct-button') {
-                almost++;
-                almostList.push(questionList[index]);
-            } else if (clickedButtonClass === 'incorrect-button') {
-                incorrect++;
-                incorrectList.push(questionList[index]);
-            }
+            getNextQuestion(questionList, this);
         });
     });
 });
@@ -64,11 +52,24 @@ function getResult(questionList) {
 }
 
 //Increments the index and gets us to the next question
-function getNextQuestion(questionList) {
+function getNextQuestion(questionList, button) {
     if (index < questionList.length - 1) {
+        var clickedButtonClass = $(button).attr('class');
+
+        if (clickedButtonClass === 'correct-button') {
+            correct++;
+            correctList.push(questionList[index]);
+        } else if (clickedButtonClass === 'almost-correct-button') {
+            almost++;
+            almostList.push(questionList[index]);
+        } else if (clickedButtonClass === 'incorrect-button') {
+            incorrect++;
+            incorrectList.push(questionList[index]);
+        }
+
         index++;
-        showQuestion(questionList)
-    } else if (index = questionList.length - 1) {
+        showQuestion(questionList);
+    } else if (index == questionList.length - 1) {
         updateQuestion(null);
     }
 }
@@ -133,23 +134,22 @@ function resultContainer() {
 function correctContainer() {
     var correctContainer = $('<div class="correct-container">');
     correctContainer.append('<h2>Korrekt: <span id="correct-text"></span></h2>');
-    
-    for (let i = 0; i < correctList.length; i++) {
-        var card = createCard(correctList[i]);
+
+    if (correctList.length > 0) {
+        var card = createCard(correctList[0], correctList, 0);
         correctContainer.append(card);
     }
 
     return correctContainer;
 }
 
-
 //Creates the almost-correct container for the results page
 function almostCorrectContainer() {
     var almostCorrectContainer = $('<div class="almost-correct-container">');
     almostCorrectContainer.append('<h2>Nästan Korrekt: <span id="almost-correct-text"></span></h2>');
     
-    for (let i = 0; i < almostList.length; i++) {
-        var card = createCard(almostList[i]);
+    if (almostList.length > 0) {
+        var card = createCard(almostList[0], almostList, 0);
         almostCorrectContainer.append(card);
     }
 
@@ -162,17 +162,17 @@ function incorrectContainer() {
     var incorrectContainer = $('<div class="incorrect-container">');
     incorrectContainer.append('<h2>Inkorrekt: <span id="incorrect-text"></span></h2>');
 
-    for (let i = 0; i < incorrectList.length; i++) {
-        var cardContainer = createCard(incorrectList[i]);
-        incorrectContainer.append(cardContainer);
-        console.log(cardContainer);
-        console.log(incorrectList);
+    if (incorrectList.length > 0) {
+        var card = createCard(incorrectList[0], incorrectList, 0);
+        incorrectContainer.append(card);
     }
 
     return incorrectContainer;
 }
 
-function createCard(questionData) {
+//Creates a card for the final result and adds animations to the card
+function createCard(questionData, list, index) {
+    var check;
     var cardContainer = $('<div class="outside-card-container">');
     cardContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
     var insideContainer = $('<div class="inside-card-container">');
@@ -185,38 +185,45 @@ function createCard(questionData) {
     backCard.append('<h2>Rätt svar:</h2>');
     backCard.append('<p><span id="correct-answer-text">' + questionData[2] + '</span></p><br>');
 
-    console.log(startCard);
-    console.log(backCard);
+    insideContainer.append(startCard);
 
-    insideContainer.on('click', function () {
-        if (insideContainer.children().is(startCard)) {
-            insideContainer.empty().append(backCard);
-            console.log("click");
-        } else {
-            insideContainer.empty().append(startCard);
-            console.log("bad click");
+    insideContainer.on({
+        click: function () {
+            insideContainer.children().remove();
+        
+            insideContainer.addClass('inside');
+        
+            insideContainer.one('transitionend', function () {
+                if (check) {
+                    insideContainer.append(startCard);
+                } else {
+                    insideContainer.append(backCard);
+                }
+        
+                insideContainer.removeClass('inside');
+                check = !check;
+            });
+        },        
+        contextmenu: function (event) {
+            event.preventDefault();
+            index = (index + 1) % list.length;
+            var nextQuestion = list[index];
+    
+            cardContainer.addClass('shuffled');
+    
+            setTimeout(function () {
+                startCard.find('#question-text').text(nextQuestion[0]);
+                startCard.find('#answer-text').text(nextQuestion[1]);
+                backCard.find('#correct-answer-text').text(nextQuestion[2]);
+    
+                cardContainer.removeClass('shuffled');
+            }, 1000);
         }
     });
-
-    insideContainer.append(startCard);
+    
     cardContainer.append(insideContainer);
 
     return cardContainer;
-}
-
-//Creates the card with the correct question data
-function createCardTest(questionData) {
-    var outsideContainer = $('<div class="outside-card-container">');
-    outsideContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
-    var insideContainer = $('<div class="inside-card-container">');
-    var cardContainer = $('<div class="all-card-container">');
-    cardContainer.append('<h2>Fråga: <span class="all-card-text">' + questionData[0] + '</span></h2><br>');
-    cardContainer.append('<p><span class="all-question-text">' + questionData[1] + '</span></p><br>');
-    cardContainer.append('<h2>Rätt svar:</h2>');
-    cardContainer.append('<p><span class="all-answer-text">' + questionData[2] + '</span></p>');
-    insideContainer.append(cardContainer);
-    outsideContainer.append(insideContainer);
-    return outsideContainer;
 }
 
 //Displays the final result for each category of answers
