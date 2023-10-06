@@ -85,18 +85,9 @@ function updateQuestion(question) {
     }
 }
 
-//Shows the final result when the list is traversed
-function showResult() {
-    $('.result-card-container').show();
-    $('.start-card-container').hide();
-    $('.back-card-container').hide();
-    $('.all-card-container').hide();
-    displayFinalResult()
-}
-
 // Shows the all-card-container which displays all of the cards
 function showAllResults() {
-    $('.result-card-container').hide();
+    $('.result-card-container').show();
     $('.start-card-container').hide();
     $('.back-card-container').hide();
     $('.all-card-container').show();
@@ -109,6 +100,8 @@ function displayAllResults() {
     var parentContainer = $('body');
 
     parentContainer.empty();
+
+    displayAllFinalResult();
 
     for (let i = 0; i < questionList.length - 1; i++) {
         var outsideContainer = $('<div class="outside-card-container">');
@@ -128,12 +121,39 @@ function displayAllResults() {
     }
 }
 
-//Hides initial elements from the page
-function hideElements() {
-    $('.back-card-container').hide();
-    $('.return-button').hide();
-    $('.result-card-container').hide();
-    $('.all-card-container').hide();
+//Displays the results of the three different answer types
+function displayAllFinalResult() {
+    var parentContainer = $('body');
+    var outsideContainer = $('<div class="outside-card-container">');
+    outsideContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
+
+    var insideContainer = $('<div class="inside-card-container">');
+    var resultContainer = $('<div class="result-card-container">');
+    resultContainer.append('<div class="correct-container">');
+    resultContainer.append('<h2>Korrekt:</h2>');
+    resultContainer.append('<p><span id="correct-text"></span></p>');
+
+    resultContainer.append('<div class="almost-correct-container">');
+    resultContainer.append('<h2>Nästan Korrekt:</h2>');
+    resultContainer.append('<p><span id="almost-correct-text"></span></p>');
+
+    resultContainer.append('<div class="incorrect-container">');
+    resultContainer.append('<h2>Inkorrekt:</h2>');
+    resultContainer.append('<p><span id="incorrect-text"></span></p>');
+
+    insideContainer.append(resultContainer);
+    outsideContainer.append(insideContainer);
+
+    var returnButton = $('<button class="return-button">Gå tillbaka till startsidan</button>')
+
+    returnButton.click(function () {
+        window.location.href = '/';
+    });
+
+    outsideContainer.append(returnButton);
+    parentContainer.append(outsideContainer);
+
+    displayFinalResult();
 }
 
 //Displays the final result for each category of answers
@@ -141,4 +161,12 @@ function displayFinalResult() {
     $('#correct-text').text(correct);
     $('#almost-correct-text').text(almost);
     $('#incorrect-text').text(incorrect);
+}
+
+//Hides initial elements from the page
+function hideElements() {
+    $('.back-card-container').hide();
+    $('.return-button').hide();
+    $('.result-card-container').hide();
+    $('.all-card-container').hide();
 }
