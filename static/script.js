@@ -79,7 +79,7 @@ function getNextQuestion(questionList) {
 //Updates the HTML elements with the data from the questionList
 function updateQuestion(question) {
     if (question !== null) {
-        $('#question-text').text(question[0]);
+        $('#question-text').text("Fråga: " + question[0]);
         $('#answer-text').text(question[1]);
         $('#correct-answer-text').text(question[2]);
     } else if (question === null) {
@@ -115,21 +115,27 @@ function displayAllFinalResult() {
     getCategoryValues();
 }
 
+//Creates the result container at the end of the session
 function resultContainer() {
     var resultContainer = $('<div class="result-card-container">');
     rButton = returnButton();
     resultContainer.append('<h1 id="result-h1">Resultat:</h1>');
-    resultContainer.append(correctContainer());
-    resultContainer.append(almostCorrectContainer());
-    resultContainer.append(incorrectContainer());
+    
+    var resultContainers = $('<div class="result-containers">');
+    resultContainers.append(correctContainer());
+    resultContainers.append(almostCorrectContainer());
+    resultContainers.append(incorrectContainer());
+
+    resultContainer.append(resultContainers);
     resultContainer.append(rButton);
     return resultContainer;
 }
 
+
+//Creates the correct container for the results page
 function correctContainer() {
     var correctContainer = $('<div class="correct-container">');
-    correctContainer.append('<h2>Korrekt:</h2>');
-    correctContainer.append('<p><span id="correct-text"></span></p>');
+    correctContainer.append('<h2>Korrekt: <span id="correct-text"></span></h2>');
     
     for (let i = 0; i < correctList.length; i++) {
         var card = createCard(correctList[i]);
@@ -139,10 +145,11 @@ function correctContainer() {
     return correctContainer;
 }
 
+
+//Creates the almost-correct container for the results page
 function almostCorrectContainer() {
     var almostCorrectContainer = $('<div class="almost-correct-container">');
-    almostCorrectContainer.append('<h2>Nästan Korrekt:</h2>');
-    almostCorrectContainer.append('<p><span id="almost-correct-text"></span></p>');
+    almostCorrectContainer.append('<h2>Nästan Korrekt: <span id="almost-correct-text"></span></h2>');
     
     for (let i = 0; i < almostList.length; i++) {
         var card = createCard(almostList[i]);
@@ -152,10 +159,11 @@ function almostCorrectContainer() {
     return almostCorrectContainer;
 }
 
+
+//Creates the incorrect container for the results page
 function incorrectContainer() {
     var incorrectContainer = $('<div class="incorrect-container">');
-    incorrectContainer.append('<h2>Inkorrekt:</h2>');
-    incorrectContainer.append('<p><span id="incorrect-text"></span></p>');
+    incorrectContainer.append('<h2>Inkorrekt: <span id="incorrect-text"></span></h2>');
     
     for (let i = 0; i < incorrectList.length; i++) {
         var card = createCard(incorrectList[i]);
@@ -165,6 +173,7 @@ function incorrectContainer() {
     return incorrectContainer;
 }
 
+//Creates the card with the correct question data
 function createCard(questionData) {
     var outsideContainer = $('<div class="outside-card-container">');
     outsideContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
@@ -194,8 +203,9 @@ function hideElements() {
     $('.all-card-container').hide();
 }
 
+//Creates a return button and adds the correct link for it
 function returnButton() {
-    var returnButton = $('<button class="return-button">Gå tillbaka till startsidan</button>')
+    var returnButton = $('<button class="result-return-button">Gå tillbaka till startsidan</button>')
 
 
     returnButton.click(function () {

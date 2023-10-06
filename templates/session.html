@@ -13,9 +13,9 @@
         <h1 class="card-title">Teleservice Skåne</h1>
         <div class="inside-card-container">
             <div class="start-card-container">
-                <h2>Fråga: <span id="question-text"></span></h2><br>
+                <h2><span id="question-text"></span></h2><br>
                 <p><span id="answer-text"></span></p><br>
-                <button class="result-button" id="result-button">Visa Resultat</button>
+                <button class="result-button" id="result-button">Visa Resultat</button><br>
                 <a href="{{ url_for('get_start') }}"><button class="return-button">Gå tillbaka till startsidan</button></a>
             </div>
             <div class="back-card-container">
@@ -33,18 +33,16 @@
             </div>
             <div class="result-card-container">
                 <h1 id="result-h1">Resultat:</h1>
-                <div class="correct-container">
-                    <h2>Korrekt:</h2>
-                    <p><span id="correct-text"></span></p>
-                </div><br>
-                <div class="almost-correct-container">
-                    <h2>Nästan Korrekt:</h2>
-                    <p><span id="almost-correct-text"></span></p>
-                </div><br>
-                <div class="inside-container">
-                    <h2>Inkorrekt:</h2>
-                    <p><span id="incorrect-text"></span></p>
-                </div><br>
+                    <div class="correct-container">
+                        <h2>Korrekt:<span id="correct-text"></span></h2>
+                    </div><br>
+                    <div class="almost-correct-container">
+                        <h2>Nästan Korrekt:<span id="almost-correct-text"></span></h2>
+                    </div><br>
+                    <div class="inside-container">
+                        <h2>Inkorrekt:<span id="incorrect-text"></span></h2>
+                    </div><br>
+                <button class="result-return-button">Gå tillbaka till startsidan</button>
             </div>
         </div>
     </div>

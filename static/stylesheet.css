@@ -71,10 +71,11 @@ button:hover {
     padding: 20px;
     text-align: center;
     display: block;
+    justify-content: center;
     margin-bottom: 20px;
     margin-top: 20px;
-    max-height: 500px;
-    max-width: 400px;
+    height: 400px;
+    width: 300px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -84,20 +85,30 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 20px;
+    height: 275px;
     display: block;
 }
 
 .result-card-container {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+.result-containers {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
 }
-
-.correct-container,
-.almost-correct-container,
-.incorrect-container {
+  
+.correct-container, .almost-correct-container, .incorrect-container {
     flex: 1;
-    margin: 10px;
     text-align: center;
+}
+ 
+.result-return-button {
+    margin-top: 20px;
 }
 
 h1 {
@@ -112,7 +123,6 @@ h2 {
 
 .start-card-container {
     display: none;
-    margin-top: 20px;
 }
 
 .back-card-container {
