@@ -16,7 +16,7 @@ class Database():
     def connect_to_db(self, file_path):
         try:
             return sqlite3.connect(file_path)
-        except Exception as e:
+        except sqlite3.DatabaseError as e:
             return e
         
     ## Creates a table of questions.
@@ -33,8 +33,8 @@ class Database():
             cursor.execute(create_statement)
             conn.commit()
 
-        except Exception as e:
-            print(f"Error creating table: {e}")
+        except (sqlite3.OperationalError, sqlite3.InternalError) as e:
+            return e
     
     ## Inserts the questions into the table of questions.
     def insert_questions(self, conn, questions):
@@ -50,7 +50,7 @@ class Database():
                     cursor.execute(insert_statement, (question, answer))
                 
             conn.commit()
-        except Exception as e:
+        except (sqlite3.OperationalError, sqlite3.InternalError) as e:
             return e
     
     ##Fetches the questions so that they can be shown in the application.
@@ -61,7 +61,7 @@ class Database():
             cursor.execute(select_statement)
             return cursor.fetchall()
         
-        except Exception as e:
+        except (sqlite3.OperationalError, sqlite3.InternalError) as e:
             return e
 
     ##Gets the questions and returns them as a list    
