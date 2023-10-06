@@ -3,6 +3,7 @@ import os
 
 cd = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(cd, 'card.db')
+
 QUESTIONS = [('När grundades Teleservice?', '1973'),
              ('Vart ligger huvudkontoret?', 'I Sjöbo'),
              ('Vem har utvecklat detta spelet?', 'Praktikanten'),
@@ -11,12 +12,14 @@ QUESTIONS = [('När grundades Teleservice?', '1973'),
              ('Test 3', 'Svar 3')]
 
 class Database():
+    ## Creates connection to the database and returns a conn object.
     def connect_to_db(self, file_path):
         try:
             return sqlite3.connect(file_path)
         except Exception as e:
             return e
         
+    ## Creates a table of questions.
     def create_table(self, conn):
         try:
             cursor = conn.cursor()
@@ -32,7 +35,8 @@ class Database():
 
         except Exception as e:
             print(f"Error creating table: {e}")
-        
+    
+    ## Inserts the questions into the table of questions.
     def insert_questions(self, conn, questions):
         try:
             cursor = conn.cursor()
@@ -48,7 +52,8 @@ class Database():
             conn.commit()
         except Exception as e:
             return e
-        
+    
+    ##Fetches the questions so that they can be shown in the application.
     def select_table(self, conn):
         try:
             cursor = conn.cursor()
@@ -58,7 +63,8 @@ class Database():
         
         except Exception as e:
             return e
-            
+
+    ##Gets the questions and returns them as a list    
     def get_questions(self):
         try:
             conn = self.connect_to_db(file_path)
