@@ -3,15 +3,16 @@
 <head>
     <link rel="stylesheet" href="static/stylesheet.css">
     <title>Teleservice Cardgame</title>
-    <script></script>
 </head>
 
 <body>
-    <div class="cardgame-container">
-        <h1>Teleservice Cardgame</h1>
-        <container class="button-container">
-            <a href="{{ url_for('get_session') }}"><button>Starta Spelet</button></a>
-        </container>
+    <div class="cardgame-wrapper">
+        <div class="cardgame-container">
+            <h1>Teleservice Cardgame</h1>
+            <container class="button-container">
+                <a href="{{ url_for('get_session') }}"><button>Starta Spelet</button></a>
+            </container>
+        </div>
     </div>
 </body>
 </html>

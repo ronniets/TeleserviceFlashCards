@@ -3,7 +3,12 @@ import os
 
 cd = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(cd, 'card.db')
-QUESTIONS = [('När grundades Teleservice?', '1973'), ('Vart ligger huvudkontoret?', 'I Sjöbo'), ('Vem har utvecklat detta spelet?', 'Praktikanten')]
+QUESTIONS = [('När grundades Teleservice?', '1973'),
+             ('Vart ligger huvudkontoret?', 'I Sjöbo'),
+             ('Vem har utvecklat detta spelet?', 'Praktikanten'),
+             ('Test 1', 'Svar 1'),
+             ('Test 2', 'Svar 2'),
+             ('Test 3', 'Svar 3')]
 
 class Database():
     def connect_to_db(self, file_path):

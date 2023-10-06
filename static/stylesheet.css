@@ -5,10 +5,14 @@ body {
     background: linear-gradient(to bottom, #fff, lightgrey);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.session-body {
+    justify-content: center;
     min-height: 100vh;
+    overflow: scroll;
 }
 
 button {
@@ -26,6 +30,13 @@ button {
 
 button:hover {
     background-color: cornflowerblue;
+}
+
+.cardgame-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .cardgame-container {
@@ -52,6 +63,13 @@ button:hover {
     border-radius: 8px;
     padding: 20px;
     text-align: center;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    max-height: 500px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .inside-card-container {
@@ -59,19 +77,14 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 20px;
-    text-align: center;
-    flex: 1;
-}
-
-.result-card-container {
-    display: flex;
-    flex-direction: row;
+    display: block;
 }
 
 .outside-card-result-container {
     background-color: grey;
     padding: 20px;
     text-align: center;
+    display: block;
 }
 
 h1 {

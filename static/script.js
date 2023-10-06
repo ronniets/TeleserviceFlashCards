@@ -37,7 +37,7 @@ function getQuestionList() {
 
 //Sends a question with corresponding index
 function showQuestion(questionList) {
-    if (index < questionList.length) {
+    if (index < questionList.length - 1) {
         updateQuestion(questionList[index]);
         $('.start-card-container').show();
         $('.back-card-container').hide();
@@ -48,7 +48,7 @@ function showQuestion(questionList) {
 
 //Shows the answers to a question with corresponding index
 function getResult(questionList) {
-    if (index < questionList.length) {
+    if (index < questionList.length - 1) {
         updateQuestion(questionList[index]);
         $('.start-card-container').hide();
         $('.back-card-container').show();
@@ -74,13 +74,13 @@ function updateQuestion(question) {
         $('#answer-text').text(question[1]);
         $('#correct-answer-text').text(question[2]);
     } else if (question === null) {
-        $('.start-card-container').show()
-        $('.back-card-container').hide()
+        $('.start-card-container').show();
+        $('.back-card-container').hide();
         $('#question-text').text("Du är färdig!");
         $('#answer-text').hide();
         $('.return-button').show();
         $('.result-button').click(function () {
-            showResult();
+            showAllResults();
         });
     }
 }
@@ -88,10 +88,44 @@ function updateQuestion(question) {
 //Shows the final result when the list is traversed
 function showResult() {
     $('.result-card-container').show();
-    $('.outside-card-container').hide();
     $('.start-card-container').hide();
     $('.back-card-container').hide();
+    $('.all-card-container').hide();
     displayFinalResult()
+}
+
+// Shows the all-card-container which displays all of the cards
+function showAllResults() {
+    $('.result-card-container').hide();
+    $('.start-card-container').hide();
+    $('.back-card-container').hide();
+    $('.all-card-container').show();
+    displayAllResults();
+}
+
+// Loops through each question and displays them on the all-card-container
+function displayAllResults() {
+    var questionList = getQuestionList();
+    var parentContainer = $('body');
+
+    parentContainer.empty();
+
+    for (let i = 0; i < questionList.length - 1; i++) {
+        var outsideContainer = $('<div class="outside-card-container">');
+        var insideContainer = $('<div class="inside-card-container">');
+
+        outsideContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
+
+        var allContainer = $('<div class="all-card-container">');
+        allContainer.append('<h2>Fråga: <span class="all-card-text">' + questionList[i][0] + '</span></h2><br>');
+        allContainer.append('<p><span class="all-question-text">' + questionList[i][1] + '</span></p><br>');
+        allContainer.append('<h2>Rätt svar:</h2>');
+        allContainer.append('<p><span class="all-answer-text">' + questionList[i][2] + '</span></p>');
+        insideContainer.append(allContainer);
+
+        outsideContainer.append(insideContainer);
+        parentContainer.append(outsideContainer);
+    }
 }
 
 //Hides initial elements from the page
@@ -99,6 +133,7 @@ function hideElements() {
     $('.back-card-container').hide();
     $('.return-button').hide();
     $('.result-card-container').hide();
+    $('.all-card-container').hide();
 }
 
 //Displays the final result for each category of answers
