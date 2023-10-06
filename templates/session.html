@@ -6,7 +6,6 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/static/script.js"></script>
     <div id="question-list" data-question-list="{{ question_list }}"></div>
-    <div id="return-url" data-url="{{ url_for('get_start') }}"></div>
 </head>
 
 <body>
@@ -33,6 +32,7 @@
                 <p><span id="all-answer-text"></span></p>
             </div>
             <div class="result-card-container">
+                <h1 id="result-h1">Resultat:</h1>
                 <div class="correct-container">
                     <h2>Korrekt:</h2>
                     <p><span id="correct-text"></span></p>

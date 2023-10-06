@@ -2,6 +2,9 @@ var index = 0;
 var correct = 0;
 var almost = 0;
 var incorrect = 0;
+var correctList = [];
+var almostList = [];
+var incorrectList = [];
 
 document.addEventListener("DOMContentLoaded", function () {
     $(function () {
@@ -15,15 +18,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         $('.correct-button, .almost-correct-button, .incorrect-button').click(function () {
-            getNextQuestion(questionList)
+            getNextQuestion(questionList);
             var clickedButtonClass = $(this).attr('class')
 
             if (clickedButtonClass === 'correct-button') {
                 correct++;
+                correctList.push(questionList[index]);
+                console.log(index + " " + correctList + " ");
             } else if (clickedButtonClass === 'almost-correct-button') {
                 almost++;
+                almostList.push(questionList[index]);
+                console.log(index + " " + almostList + " ");
             } else if (clickedButtonClass === 'incorrect-button') {
                 incorrect++;
+                incorrectList.push(questionList[index]);
+                console.log(index + " " + incorrectList + " ");
             }
         });
     });
@@ -91,73 +100,87 @@ function showAllResults() {
     $('.start-card-container').hide();
     $('.back-card-container').hide();
     $('.all-card-container').show();
-    displayAllResults();
-}
-
-// Loops through each question and displays them on the all-card-container
-function displayAllResults() {
-    var questionList = getQuestionList();
-    var parentContainer = $('body');
-
-    parentContainer.empty();
-
     displayAllFinalResult();
-
-    for (let i = 0; i < questionList.length - 1; i++) {
-        var outsideContainer = $('<div class="outside-card-container">');
-        var insideContainer = $('<div class="inside-card-container">');
-
-        outsideContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
-
-        var allContainer = $('<div class="all-card-container">');
-        allContainer.append('<h2>Fråga: <span class="all-card-text">' + questionList[i][0] + '</span></h2><br>');
-        allContainer.append('<p><span class="all-question-text">' + questionList[i][1] + '</span></p><br>');
-        allContainer.append('<h2>Rätt svar:</h2>');
-        allContainer.append('<p><span class="all-answer-text">' + questionList[i][2] + '</span></p>');
-        insideContainer.append(allContainer);
-
-        outsideContainer.append(insideContainer);
-        parentContainer.append(outsideContainer);
-    }
 }
 
 //Displays the results of the three different answer types
 function displayAllFinalResult() {
     var parentContainer = $('body');
+
+    parentContainer.empty();
+
+    resultContainer = resultContainer();
+    parentContainer.append(resultContainer);
+
+    getCategoryValues();
+}
+
+function resultContainer() {
+    var resultContainer = $('<div class="result-card-container">');
+    rButton = returnButton();
+    resultContainer.append('<h1 id="result-h1">Resultat:</h1>');
+    resultContainer.append(correctContainer());
+    resultContainer.append(almostCorrectContainer());
+    resultContainer.append(incorrectContainer());
+    resultContainer.append(rButton);
+    return resultContainer;
+}
+
+function correctContainer() {
+    var correctContainer = $('<div class="correct-container">');
+    correctContainer.append('<h2>Korrekt:</h2>');
+    correctContainer.append('<p><span id="correct-text"></span></p>');
+    
+    for (let i = 0; i < correctList.length; i++) {
+        var card = createCard(correctList[i]);
+        correctContainer.append(card);
+    }
+
+    return correctContainer;
+}
+
+function almostCorrectContainer() {
+    var almostCorrectContainer = $('<div class="almost-correct-container">');
+    almostCorrectContainer.append('<h2>Nästan Korrekt:</h2>');
+    almostCorrectContainer.append('<p><span id="almost-correct-text"></span></p>');
+    
+    for (let i = 0; i < almostList.length; i++) {
+        var card = createCard(almostList[i]);
+        almostCorrectContainer.append(card);
+    }
+
+    return almostCorrectContainer;
+}
+
+function incorrectContainer() {
+    var incorrectContainer = $('<div class="incorrect-container">');
+    incorrectContainer.append('<h2>Inkorrekt:</h2>');
+    incorrectContainer.append('<p><span id="incorrect-text"></span></p>');
+    
+    for (let i = 0; i < incorrectList.length; i++) {
+        var card = createCard(incorrectList[i]);
+        incorrectContainer.append(card);
+    }
+
+    return incorrectContainer;
+}
+
+function createCard(questionData) {
     var outsideContainer = $('<div class="outside-card-container">');
     outsideContainer.append('<h1 class="card-title">Teleservice Skåne</h1>');
-
     var insideContainer = $('<div class="inside-card-container">');
-    var resultContainer = $('<div class="result-card-container">');
-    resultContainer.append('<div class="correct-container">');
-    resultContainer.append('<h2>Korrekt:</h2>');
-    resultContainer.append('<p><span id="correct-text"></span></p>');
-
-    resultContainer.append('<div class="almost-correct-container">');
-    resultContainer.append('<h2>Nästan Korrekt:</h2>');
-    resultContainer.append('<p><span id="almost-correct-text"></span></p>');
-
-    resultContainer.append('<div class="incorrect-container">');
-    resultContainer.append('<h2>Inkorrekt:</h2>');
-    resultContainer.append('<p><span id="incorrect-text"></span></p>');
-
-    insideContainer.append(resultContainer);
+    var cardContainer = $('<div class="all-card-container">');
+    cardContainer.append('<h2>Fråga: <span class="all-card-text">' + questionData[0] + '</span></h2><br>');
+    cardContainer.append('<p><span class="all-question-text">' + questionData[1] + '</span></p><br>');
+    cardContainer.append('<h2>Rätt svar:</h2>');
+    cardContainer.append('<p><span class="all-answer-text">' + questionData[2] + '</span></p>');
+    insideContainer.append(cardContainer);
     outsideContainer.append(insideContainer);
-
-    var returnButton = $('<button class="return-button">Gå tillbaka till startsidan</button>')
-
-    returnButton.click(function () {
-        window.location.href = '/';
-    });
-
-    outsideContainer.append(returnButton);
-    parentContainer.append(outsideContainer);
-
-    displayFinalResult();
+    return outsideContainer;
 }
 
 //Displays the final result for each category of answers
-function displayFinalResult() {
+function getCategoryValues() {
     $('#correct-text').text(correct);
     $('#almost-correct-text').text(almost);
     $('#incorrect-text').text(incorrect);
@@ -169,4 +192,15 @@ function hideElements() {
     $('.return-button').hide();
     $('.result-card-container').hide();
     $('.all-card-container').hide();
+}
+
+function returnButton() {
+    var returnButton = $('<button class="return-button">Gå tillbaka till startsidan</button>')
+
+
+    returnButton.click(function () {
+        window.location.href = '/';
+    });
+
+    return returnButton;
 }
